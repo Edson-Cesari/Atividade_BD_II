@@ -1,0 +1,69 @@
+Desenvolva um banco de dados e relacione tabelas através de chaves estrangeiras ou nomes de colunas iguais. Siga as instruções:
+crie uma base de dados; 
+crie tabelas nessa base de dados;
+em cada tabela, adicione atributos;
+insira dados em cada tabela;
+utilize os comandos Joins para realizar consultas nas tabelas. 
+
+
+Atividade feita e testada no site:  https://sqliteonline.com/
+
+Postgree SQL
+
+CREATE TABLE aluno (
+  id serial PRIMARY key,
+  nome VARCHAR(30) NOT NULL
+);
+
+CREATE TABLE disciplina(
+  id serial PRIMARY KEY,
+  descricao VARCHAR(30) NOT NULL,
+  carga_horaria int NOT null
+);
+
+CREATE TABLE aluno_disciplina(
+  fk_id_aluno INT,
+  fk_id_disciplina INT,
+  nota NUMERIC(2,1),
+  CONSTRAINT aluno_disciplina_pk PRIMARY KEY (fk_id_aluno,fk_id_disciplina),
+  CONSTRAINT fk_aluno FOREIGN KEY(fk_id_aluno) REFERENCES aluno(id),
+  CONSTRAINT fk_disciplina FOREIGN KEY(fk_id_disciplina) REFERENCES aluno(id)
+);
+
+
+INSERT into aluno (nome) VALUES 
+('Seu Ramon'),
+('Dona Florinda'),
+('Chaves'),
+('Quico');
+
+SELECT * from aluno;
+
+insert into disciplina (descricao,carga_horaria) VALUES
+('Aritimetica',20),
+('Historia',30),
+('Geometria',50),
+('Geografia',25);
+
+SELECT * from disciplina;
+
+insert into aluno_disciplina(fk_id_aluno,fk_id_disciplina,nota) VALUES
+(1,1,5.5),
+(1,2,8.5),
+(2,1,7.5),
+(2,2,5.0);
+
+SELECT * from aluno_disciplina;
+
+
+SELECT nome, descricao,nota from aluno
+inner Join disciplina  on aluno.id = disciplina.id
+INNER join aluno_disciplina on disciplina.id = aluno_disciplina.fk_id_aluno;
+
+SELECT nome, descricao,nota from aluno
+LEFT JOIN disciplina  on aluno.id = disciplina.id
+left JOIN aluno_disciplina on disciplina.id = aluno_disciplina.fk_id_aluno;
+
+SELECT nome, descricao,nota from aluno
+right Join disciplina  on aluno.id = disciplina.id
+right join aluno_disciplina on disciplina.id = aluno_disciplina.fk_id_aluno;
